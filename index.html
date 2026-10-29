@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Discover premium AI prompts, digital templates and productivity tools at Onixa AI.">
+  <title>Onixa AI — Digital Products</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b1020;
+      color: #f8fafc;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 7%;
+      border-bottom: 1px solid #253047;
+    }
+    .logo { font-size: 27px; font-weight: 800; }
+    .logo span { color: #8b5cf6; }
+    button, .btn {
+      background: #8b5cf6;
+      color: white;
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 18px;
+      cursor: pointer;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    button:hover, .btn:hover { background: #7042dc; }
+    .hero {
+      text-align: center;
+      padding: 85px 20px 65px;
+      background: radial-gradient(ellipse at top, #25204c, #0b1020 70%);
+    }
+    .tag {
+      color: #c4b5fd;
+      border: 1px solid #51417d;
+      padding: 8px 14px;
+      border-radius: 30px;
+      display: inline-block;
+    }
+    h1 { font-size: clamp(36px, 6vw, 62px); margin: 25px 0 15px; }
+    h1 span { color: #a78bfa; }
+    .hero p { color: #aab4c8; line-height: 1.8; }
+    main { max-width: 1100px; margin: auto; padding: 35px 20px 70px; }
+    .section-title { text-align: center; margin: 25px 0 35px; }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 22px;
+    }
+    .card {
+      background: #131b2e;
+      border: 1px solid #28334a;
+      border-radius: 17px;
+      padding: 25px;
+    }
+    .product-icon { font-size: 43px; }
+    .card p { color: #aab4c8; line-height: 1.7; min-height: 50px; }
+    .price { font-size: 25px; font-weight: bold; margin: 22px 0; }
+    .card button { width: 100%; }
+    .cart {
+      margin-top: 40px;
+      padding: 25px;
+      border: 1px solid #34415a;
+      border-radius: 16px;
+      background: #11182a;
+    }
+    .cart-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #28334a;
+    }
+    .remove { background: #374151; padding: 7px 10px; }
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      color: #9ca3af;
+      border-top: 1px solid #253047;
+    }
+    .note { font-size: 13px; color: #9ca3af; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Onixa<span> AI</span></div>
+    <button onclick="document.getElementById('cart').scrollIntoView({behavior:'smooth'})">
+      Cart (<span id="count">0</span>)
+    </button>
+  </header>
+
+  <section class="hero">
+    <span class="tag">✦ Digital products for a smarter future</span>
+    <h1>Unlock Your Potential<br>with <span>AI</span></h1>
+    <p>Discover useful prompts, creative templates and digital tools<br>
+      designed to help you work smarter.</p>
+    <a class="btn" href="#products">Explore Products</a>
+  </section>
+
+  <main>
+    <div class="section-title" id="products">
+      <h2>Our Digital Products</h2>
+      <p style="color:#aab4c8">Instant digital solutions for creators and businesses.</p>
+    </div>
+
+    <div class="products">
+      <article class="card">
+        <div class="product-icon">🤖</div>
+        <h3>AI Prompt Collection</h3>
+        <p>A curated collection of prompts for writing, creativity and productivity.</p>
+        <div class="price">$9.00</div>
+        <button onclick="addToCart('AI Prompt Collection',9)">Add to Cart</button>
+      </article>
+
+      <article class="card">
+        <div class="product-icon">🎨</div>
+        <h3>Social Media Templates</h3>
+        <p>Editable design templates for creators and small businesses.</p>
+        <div class="price">$12.00</div>
+        <button onclick="addToCart('Social Media Templates',12)">Add to Cart</button>
+      </article>
+
+      <article class="card">
+        <div class="product-icon">✍️</div>
+        <h3>Content Creator Kit</h3>
+        <p>Planning sheets and content ideas to organize your creative workflow.</p>
+        <div class="price">$15.00</div>
+        <button onclick="addToCart('Content Creator Kit',15)">Add to Cart</button>
+      </article>
+    </div>
+
+    <section class="cart" id="cart">
+      <h2>Your Cart</h2>
+      <div id="cart-items">Your cart is empty.</div>
+      <h3>Total: $<span id="total">0.00</span></h3>
+      <button onclick="checkout()">Continue to Checkout</button>
+      <p class="note" id="checkout-note">
+        Checkout is not connected yet. No payment will be taken.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="logo">Onixa<span> AI</span></div>
+    <p>Digital tools for a smarter world.</p>
+    <p>© <span id="year"></span> Onixa AI. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const cart = [];
+
+    function addToCart(name, price) {
+      cart.push({ name, price });
+      renderCart();
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      renderCart();
+    }
+
+    function renderCart() {
+      document.getElementById('count').textContent = cart.length;
+      document.getElementById('total').textContent =
+        cart.reduce((sum, item) => sum + item.price, 0).toFixed(2);
+
+      const container = document.getElementById('cart-items');
+
+      if (!cart.length) {
+        container.textContent = 'Your cart is empty.';
+        return;
+      }
+
+      container.replaceChildren();
+
+      cart.forEach((item, index) => {
+        const row = document.createElement('div');
+        row.className = 'cart-row';
+
+        const label = document.createElement('span');
+        label.textContent = `${item.name} — $${item.price.toFixed(2)}`;
+
+        const remove = document.createElement('button');
+        remove.className = 'remove';
+        remove.textContent = 'Remove';
+        remove.addEventListener('click', () => removeFromCart(index));
+
+        row.append(label, remove);
+        container.appendChild(row);
+      });
+    }
+
+    function checkout() {
+      document.getElementById('checkout-note').textContent =
+        'Online payments are not set up yet. Please do not send payment until an official checkout is connected.';
+    }
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
